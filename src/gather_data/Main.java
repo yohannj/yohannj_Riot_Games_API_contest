@@ -121,8 +121,12 @@ public class Main {
             e.printStackTrace();
         }
     }
+    
+    private static void extractMatchData(long match_id, Region r, boolean is_timeline_include) {
+        MatchDetail md = requester.getMatch(r, match_id, is_timeline_include);
+    }
 
-    private static void extractMatchData() {
+    private static void extractMatchData_old() {
         long summoner_id = requester.getSummonnerIdFromName(region, "amendile");
         List<MatchSummary> match_summaries = requester.getMatchHistory(region, summoner_id).getMatches();
         MatchSummary ms = match_summaries.get(match_summaries.size() - 1); //Get last match
@@ -157,6 +161,10 @@ public class Main {
         Participant #9. Team_id: 200. Champion_id: 39
         Participant #10. Team_id: 200. Champion_id: 101
         10*/
+    }
+    
+    private static void transformChampWinLose(MatchDetail md) {
+        String header = "";
     }
 
 }
