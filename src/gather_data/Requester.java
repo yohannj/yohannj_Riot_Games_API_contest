@@ -1,12 +1,18 @@
 package gather_data;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import constant.Region;
 import dto.Game.RecentGames;
 import dto.Match.MatchDetail;
 import dto.MatchHistory.PlayerHistory;
 import dto.Summoner.Summoner;
+import main.java.riotapi.Request;
 import main.java.riotapi.RiotApi;
 import main.java.riotapi.RiotApiException;
 
@@ -29,8 +35,7 @@ public class Requester {
     }
 
     private void goingToSendARequest() {
-        long sleepTime = (lastRequestsTime.toEpochMilli() + msBetweenRequest)
-                         - Instant.now().toEpochMilli();
+        long sleepTime = (lastRequestsTime.toEpochMilli() + msBetweenRequest) - Instant.now().toEpochMilli();
         if (sleepTime > 0) {
             try {
                 Thread.sleep(sleepTime);
@@ -71,7 +76,7 @@ public class Requester {
         }
         return res;
     }
-    
+
     public PlayerHistory getMatchHistory(Region region, long summoner_id) {
         goingToSendARequest();
         PlayerHistory res = null;
@@ -91,6 +96,24 @@ public class Requester {
         try {
             res = api.getMatch(region, match_id, include_timeline);
         } catch (RiotApiException e) {
+            e.printStackTrace();
+        } finally {
+            justSentARequest();
+        }
+        return res;
+    }
+
+    public List<Long> getChallengeMatchIds(Region region, Long epoch_begin_time) {
+        goingToSendARequest();
+        List<Long> res = new ArrayList<Long>();
+        String url = "";
+        try {
+            url = region.getEndpoint() + region.getName() + "/v4.1/game/ids?beginDate=" + epoch_begin_time + "&api_key="
+                  + API_key.KEY;
+            res = new Gson().fromJson(Request.execute(url), new TypeToken<List<Long>>() {
+            }.getType());
+        } catch (RiotApiException e) {
+            System.out.println(url);
             e.printStackTrace();
         } finally {
             justSentARequest();

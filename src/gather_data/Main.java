@@ -1,6 +1,14 @@
 package gather_data;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.BufferedWriter;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalField;
 import java.util.List;
 
 import constant.Region;
@@ -10,6 +18,14 @@ import dto.MatchHistory.MatchSummary;
 
 public class Main {
 
+    private static String parseMatchId(List<Long> match_ids, Region region) {
+        String res = "";
+        for (int i = 0; i < match_ids.size(); ++i) {
+            res += match_ids.get(i) + "," + region.getName() + "\n";
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
 
         if (API_key.KEY.isEmpty()) {
@@ -18,7 +34,30 @@ public class Main {
         }
 
         Requester requester = new Requester();
-        Region region = Region.EUW;
+        Region region = Region.NA;
+
+        
+        //LocalDateTime ldt = LocalDateTime.of(2015, 04, 01, 11, 00);
+        //Instant lastRequest = ldt.toInstant(ZoneOffset.of("-05"));
+        
+        Instant lastRequest = Instant.ofEpochSecond(1427937000);
+
+        try {
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("match_ids.csv", true)));
+            while (lastRequest.isBefore(Instant.now())) {
+                String print_match_ids = "";
+                List<Long> match_ids = requester.getChallengeMatchIds(region, lastRequest.getEpochSecond());
+                print_match_ids += parseMatchId(match_ids, region);
+                out.println(print_match_ids);
+
+                lastRequest = lastRequest.plusSeconds(300); // Adjust to next requst: 300s = 5 minute
+            }
+            System.out.println(lastRequest.getEpochSecond());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*Region region = Region.EUW;
 
         System.out.println("Current time epoch: " + Instant.now().toEpochMilli());
 
@@ -37,7 +76,7 @@ public class Main {
             System.out.println("Participant #" + (participant_number++) + ". Team_id: " + p.getTeamId() + ". Champion_id: "
                                + p.getChampionId());
         }
-        System.out.println(md.getTimeline().getFrames().get(0).getParticipantFrames().size());
+        System.out.println(md.getTimeline().getFrames().get(0).getParticipantFrames().size());*/
 
         /* Example of result (Need a class champion with champion static data ?)
         Current time epoch: 1427866403926
