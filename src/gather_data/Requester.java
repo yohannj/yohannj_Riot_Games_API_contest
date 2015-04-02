@@ -11,6 +11,7 @@ import constant.Region;
 import dto.Game.RecentGames;
 import dto.Match.MatchDetail;
 import dto.MatchHistory.PlayerHistory;
+import dto.Static.ChampionList;
 import dto.Summoner.Summoner;
 import main.java.riotapi.Request;
 import main.java.riotapi.RiotApi;
@@ -114,6 +115,19 @@ public class Requester {
             }.getType());
         } catch (RiotApiException e) {
             System.out.println(url);
+            e.printStackTrace();
+        } finally {
+            justSentARequest();
+        }
+        return res;
+    }
+    
+    public ChampionList getChampionsInfo() {
+        goingToSendARequest();
+        ChampionList res = null;
+        try {
+            res = api.getDataChampionList();
+        } catch (RiotApiException e) {
             e.printStackTrace();
         } finally {
             justSentARequest();
