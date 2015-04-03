@@ -66,16 +66,11 @@ public class FileManager {
         }
         return res;
     }
-
-    /**
-     * @param file_name
-     * @param text_to_write
-     * Write text at the end of a File (no overwriting)
-     */
-    public void append(String file_name, String text_to_write) {
+    
+    private void write(String file_name, String text_to_write, boolean append) {
         FileWriter fw;
         try {
-            fw = new FileWriter("resources/" + file_name, true);
+            fw = new FileWriter("resources/" + file_name, append);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw);
             out.println(text_to_write);
@@ -83,6 +78,25 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * @param file_name
+     * @param text_to_write
+     * Create a file containing text_to_write
+     * Warning: Overwrite existing file!
+     */
+    public void overwrite(String file_name, String text_to_write) {
+        write(file_name, text_to_write, false);
+    }
+
+    /**
+     * @param file_name
+     * @param text_to_write
+     * Write text at the end of a File (no overwriting)
+     */
+    public void append(String file_name, String text_to_write) {
+        write(file_name, text_to_write, true);
     }
     
     public boolean isExistingFile(String file_name) {

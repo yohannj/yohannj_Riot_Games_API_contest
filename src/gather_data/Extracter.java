@@ -1,5 +1,6 @@
 package gather_data;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -7,8 +8,11 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 
 import constant.Region;
 import dto.Match.MatchDetail;
@@ -91,6 +95,37 @@ public class Extracter {
 
     public MatchDetail extractMatchDetail(long match_id, Region region, boolean is_timeline_include) {
         return requester.getMatch(region, match_id, is_timeline_include);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void extractMatchDetails(int nb_match_to_extract, Region region, boolean is_timeline_include) {
+        try {
+
+            Set<MatchDetail> matches_detail;
+            try {
+                matches_detail = (Set<MatchDetail>) file_manager.load("matches_detail");
+            } catch (IOException e) {
+                //File not existing, so we'll create it
+                matches_detail = new HashSet<MatchDetail>();
+            }
+
+            Scanner match_ids = new Scanner(file_manager.getFile("match_ids.csv"));
+            String[] line_splitted;
+            int index = 0;
+            while (match_ids.hasNextLine() && ++index <= nb_match_to_extract) {
+                line_splitted = match_ids.nextLine().split(",");
+                if (line_splitted.length == 2 && region.getName().equals(line_splitted[1])) { //This is a correct line
+                    MatchDetail md = extractMatchDetail(Long.parseLong(line_splitted[0]), region, is_timeline_include);
+                    if (md != null) {
+                        matches_detail.add(md);
+                    }
+                }
+            }
+            match_ids.close();
+            file_manager.save(matches_detail, "matches_detail");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void extractMatchData_old(Region region) {
