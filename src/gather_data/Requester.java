@@ -19,9 +19,20 @@ import main.java.riotapi.RiotApiException;
 
 /**
  * @author Amendil
+ * Singleton
  * Kind of a proxy design pattern to interact with RiotApi, respecting the number of request permitted by riot 
  */
 public class Requester {
+    
+    private static Requester instance;
+    
+    public static Requester getInstance() {
+        if(instance == null) {
+            instance = new Requester();
+        }
+        
+        return instance;
+    }
 
     private final double nbRequestPer10s = 10.0;
     private final double nbRequestPer10m = 500.0;
@@ -30,7 +41,7 @@ public class Requester {
     private Instant lastRequestsTime;
     private RiotApi api;
 
-    public Requester() {
+    private Requester() {
         lastRequestsTime = Instant.EPOCH;
         api = new RiotApi(API_key.KEY);
     }
