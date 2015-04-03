@@ -89,7 +89,7 @@ public class Extracter {
         file_manager.save(lastRequest.getEpochSecond(), "extractMatchIds_last_request_time");
     }
 
-    public MatchDetail extractMatchData(long match_id, Region region, boolean is_timeline_include) {
+    public MatchDetail extractMatchDetail(long match_id, Region region, boolean is_timeline_include) {
         return requester.getMatch(region, match_id, is_timeline_include);
     }
 

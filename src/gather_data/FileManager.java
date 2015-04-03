@@ -83,7 +83,15 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+    }
+    
+    public boolean isExistingFile(String file_name) {
+        File f = new File("resources/" + file_name);
+        return f.isFile();
+    }
+    
+    public File getFile(String file_name) {
+        return new File("resources/" + file_name);
     }
 
 }
