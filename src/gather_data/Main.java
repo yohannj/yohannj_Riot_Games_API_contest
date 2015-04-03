@@ -1,6 +1,7 @@
 package gather_data;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,8 @@ public class Main {
 
         System.out.println(champions_name.get(champions_index_from_id.get(412)));
 
-        //extractMatchIds();
+        
+        extractMatchIdsForever();
         //extracter.extractMatchData(match_id, region, false);
     }
 
@@ -49,6 +51,20 @@ public class Main {
                 champions_name = (List<String>) file_manager.load("champions_name");
             } catch (IOException e1) {
                 e1.printStackTrace();
+            }
+        }
+    }
+    
+    private static void extractMatchIdsForever() {
+        long sleep_time = 1000 * 3600; //Sleep 1000 ms * 3600 = 1 hour
+        while (true) {            
+            System.out.println("Awake at " + Instant.now().toString());
+            extracter.extractMatchIds(region);
+            try {
+                System.out.println("Going to sleep at " + Instant.now().toString());
+                Thread.sleep(sleep_time);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

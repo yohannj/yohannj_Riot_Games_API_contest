@@ -1,9 +1,9 @@
 package gather_data;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import dto.Static.Champion;
 import dto.Static.ChampionList;
 
 public class Extracter {
-    
+
     private static Requester requester;
     private static FileManager file_manager;
 
@@ -26,7 +26,7 @@ public class Extracter {
         requester = Requester.getInstance();
         file_manager = FileManager.getInstance();
     }
-    
+
     private String parseMatchId(List<Long> match_ids, Region region) {
         String res = "";
         for (int i = 0; i < match_ids.size(); ++i) {
@@ -34,7 +34,7 @@ public class Extracter {
         }
         return res;
     }
-    
+
     public void extractChampionsInfo() {
         ChampionList cl = requester.getChampionsInfo();
         int nb_champ = cl.getData().size();
@@ -57,49 +57,42 @@ public class Extracter {
         file_manager.save(champions_index_from_id, "champions_index_from_id");
         file_manager.save(champions_name, "champions_name");
     }
-    
+
     /**
      * @param region
      * 
      */
     public void extractMatchIds(Region region) {
-        //Used for the first request
-        //LocalDateTime ldt = LocalDateTime.of(2015, 04, 01, 11, 00);
-        //Instant lastRequest = ldt.toInstant(ZoneOffset.of("-05"));
-
-        Instant lastRequest = Instant.ofEpochSecond(1428006600);
-        long sleep_time = 1000 * 3600; //Sleep 1000 ms * 3600 = 1 hour
-
+        long last_request_epoch_sec;
         try {
-
-            while (true) {
-                FileWriter fw = new FileWriter("resources/match_ids.csv", true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                PrintWriter out = new PrintWriter(bw);
-                System.out.println("Awake at " + Instant.now().toString());
-                while (lastRequest.isBefore(Instant.now())) {
-                    String print_match_ids = "";
-                    List<Long> match_ids = requester.getChallengeMatchIds(region, lastRequest.getEpochSecond());
-                    print_match_ids += parseMatchId(match_ids, region);
-                    out.println(print_match_ids);
-
-                    lastRequest = lastRequest.plusSeconds(300); // Adjust to next requst: 300s = 5 minute
-                }
-                System.out.println("lastRequest.getEpochSecond()=" + lastRequest.getEpochSecond());
-                out.close();
-                System.out.println("Going to sleep at " + Instant.now().toString());
-                lastRequest = lastRequest.minusSeconds(300); //Might miss matches between now and next lastRequest (example: 20:03, got matches for 20:00 to 20:03 instead of 20:00 to 20:05, and next "lastRequest" is for 20:05 to 20:10. So I'll just redo the last request.
-                Thread.sleep(sleep_time);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            last_request_epoch_sec = (long) file_manager.load("extractMatchIds_last_request_time");
+        } catch (IOException e1) {
+            //First time using the request
+            LocalDateTime ldt = LocalDateTime.of(2015, 04, 01, 11, 00);
+            last_request_epoch_sec = ldt.toEpochSecond(ZoneOffset.of("-05"));
         }
+        Instant lastRequest = Instant.ofEpochSecond(last_request_epoch_sec);
+
+        while (lastRequest.isBefore(Instant.now())) {
+            String print_match_ids = "";
+            List<Long> match_ids = requester.getChallengeMatchIds(region, lastRequest.getEpochSecond());
+            print_match_ids += parseMatchId(match_ids, region);
+            file_manager.append("match_ids.csv", print_match_ids);
+
+            //Adjust to next request: 300s = 5 minute
+            lastRequest = lastRequest.plusSeconds(300);
+        }
+
+        //Avoid missing matches between now and next lastRequest (i.e. for 20:03, got matches for 20:00 to 20:03 instead of 20:00 to 20:05, and next "lastRequest" is for 20:05 to 20:10.)
+        lastRequest = lastRequest.minusSeconds(300);
+
+        file_manager.save(lastRequest.getEpochSecond(), "extractMatchIds_last_request_time");
     }
-    
+
     public MatchDetail extractMatchData(long match_id, Region region, boolean is_timeline_include) {
         return requester.getMatch(region, match_id, is_timeline_include);
     }
-    
+
     public void extractMatchData_old(Region region) {
         long summoner_id = requester.getSummonnerIdFromName(region, "amendile");
         List<MatchSummary> match_summaries = requester.getMatchHistory(region, summoner_id).getMatches();
