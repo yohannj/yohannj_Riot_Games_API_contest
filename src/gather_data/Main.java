@@ -24,14 +24,19 @@ public class Main {
 
         region = Region.NA;
 
+
+        System.out.println("start");
+        //extractMatchIdsOnce();
+        //System.out.println("match ids extracted once");
+        
+        extracter.extractMatchDetails(3000, region, false);
+        System.out.println("match details extracted");
+        
+        transformer.cleanMatchIds();
+        System.out.println("match ids cleaned");
         
         transformer.analyseWinFromChampions();
-
-        //extractMatchIdsOnce();
-
-        //extracter.extractMatchDetails(5000, region, false);
-        //transformer.cleanMatchIds();
-        System.out.println("done");
+        System.out.println("analyse done");
 
         //extractMatchIdsForever();
         //extracter.extractMatchData(match_id, region, false);

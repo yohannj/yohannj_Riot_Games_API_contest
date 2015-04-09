@@ -35,13 +35,13 @@ public class DataManager {
     private void loadChampInfos() {
 
         try {
-            champions_index_from_id = (Map<Integer, Integer>) file_manager.load("champions_index_from_id");
-            champions_name = (List<String>) file_manager.load("champions_name");
+            champions_index_from_id = (Map<Integer, Integer>) file_manager.load("champions_index_from_id").get(0);
+            champions_name = (List<String>) file_manager.load("champions_name").get(0);
         } catch (IOException e) {
             extracter.extractChampionsInfo();
             try {
-                champions_index_from_id = (Map<Integer, Integer>) file_manager.load("champions_index_from_id");
-                champions_name = (List<String>) file_manager.load("champions_name");
+                champions_index_from_id = (Map<Integer, Integer>) file_manager.load("champions_index_from_id").get(0);
+                champions_name = (List<String>) file_manager.load("champions_name").get(0);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

@@ -35,7 +35,12 @@ public class Transformer {
         string_builder.append("Winner\n");
 
         try {
-            Set<MatchDetail> mds = (Set<MatchDetail>) file_manager.load("matches_detail");
+            List<Object> all_mds = file_manager.load("matches_detail");
+            Set<MatchDetail> mds = new HashSet<MatchDetail>(30000); //Just save some time...
+            for(Object o : all_mds) {
+                mds.addAll((Set<MatchDetail>) o);
+            }
+            all_mds = null; //Free memory for a System.gc() ?
 
             for (MatchDetail md : mds) {
                 Map<Integer, Integer> team_id_from_champion_index = new HashMap<Integer, Integer>();
@@ -76,7 +81,13 @@ public class Transformer {
     @SuppressWarnings("unchecked")
     public void cleanMatchIds() {
         try {
-            Set<MatchDetail> mds = (Set<MatchDetail>) file_manager.load("matches_detail");
+            List<Object> all_mds = file_manager.load("matches_detail");
+            Set<MatchDetail> mds = new HashSet<MatchDetail>();
+            for(Object o : all_mds) {
+                mds.addAll((Set<MatchDetail>) o);
+            }
+            all_mds = null; //Free memory for a System.gc() ?
+            
             Set<Long> mds_id = new HashSet<Long>(mds.size());
             for (MatchDetail md : mds) {
                 mds_id.add(md.getMatchId());
