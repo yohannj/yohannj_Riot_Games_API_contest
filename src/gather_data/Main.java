@@ -21,32 +21,29 @@ public class Main {
 
         extracter = new Extracter();
         transformer = new Transformer();
-        
+
         region = Region.NA;
+
         
-        /*try {
-            transformer.analyseWinFromChampions();
-        } catch (FileNotFoundException e) {
-            System.out.println("No match details found. Please extract these before calling." + e.getStackTrace());
-        }*/
-        
-        extractMatchIdsOnce();
-        
-        extracter.extractMatchDetails(13000, region, false);
-        transformer.cleanMatchIds();
-        
-        
+        transformer.analyseWinFromChampions();
+
+        //extractMatchIdsOnce();
+
+        //extracter.extractMatchDetails(5000, region, false);
+        //transformer.cleanMatchIds();
+        System.out.println("done");
+
         //extractMatchIdsForever();
         //extracter.extractMatchData(match_id, region, false);
     }
-    
+
     private static void extractMatchIdsOnce() {
         extracter.extractMatchIds(region);
     }
-    
+
     private static void extractMatchIdsForever() {
         long sleep_time = 1000 * 3600; //Sleep 1000 ms * 3600 = 1 hour
-        while (true) {            
+        while (true) {
             System.out.println("Awake at " + Instant.now().toString());
             extractMatchIdsOnce();
             try {

@@ -1,7 +1,8 @@
 package gather_data;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,29 +23,51 @@ public class Transformer {
     }
 
     @SuppressWarnings("unchecked")
-    public void analyseWinFromChampions() throws FileNotFoundException {
+    public void analyseWinFromChampions() {
         Map<Integer, Integer> champions_index_from_id = data_manager.getChampionsIndexFromId();
         List<String> champions_name = data_manager.getChampionsName();
 
-        //file_manager.isExistingFile("analyse_win_from_champions.csv")
         //Create header
         StringBuilder string_builder = new StringBuilder(champions_name.size() * 6); //Improve to analyse all match_ids
-        string_builder.append(champions_name.get(0));
-        for (int i = 1; i < champions_name.size(); ++i) {
-            string_builder.append("," + champions_name.get(i));
+        for (int i = 0; i < champions_name.size(); ++i) {
+            string_builder.append(champions_name.get(i).replaceAll("'", " ") + ",");
         }
-        string_builder.append("\n");
+        string_builder.append("Winner\n");
 
         try {
             Set<MatchDetail> mds = (Set<MatchDetail>) file_manager.load("matches_detail");
-            for (MatchDetail md : mds) {
-                for (Participant p : md.getParticipants()) {
-                    //TODO add team_id and champion_id to an object and add it to string_builder
 
-                    /*System.out.println("Participant #" + (participant_number++) + ". Team_id: " + p.getTeamId() + ". Champion_id: "
-                                       + p.getChampionId());*/
+            for (MatchDetail md : mds) {
+                Map<Integer, Integer> team_id_from_champion_index = new HashMap<Integer, Integer>();
+                for (Participant p : md.getParticipants()) {
+                    team_id_from_champion_index.put(champions_index_from_id.get(p.getChampionId()), p.getTeamId());
                 }
+
+                Object[] indexes = team_id_from_champion_index.keySet().toArray();
+                Arrays.sort(indexes);
+
+                int current_index = 0;
+                int next_champion_index = (int) indexes[current_index];
+                for (int i = 0; i < champions_name.size(); ++i) {
+                    if (i == next_champion_index) {
+                        string_builder.append(team_id_from_champion_index.get(i) + ",");
+                        next_champion_index = ++current_index < indexes.length ? (int) indexes[current_index] : Integer.MAX_VALUE;
+                    } else {
+                        string_builder.append(-1 + ",");
+                    }
+                }
+
+                int winner_id = -1;
+                for (dto.Match.Team t : md.getTeams()) {
+                    if (t.isWinner()) {
+                        winner_id = t.getTeamId();
+                    }
+                }
+                string_builder.append(winner_id + "\n");
+
             }
+
+            file_manager.overwrite("analyse_win_from_champions.csv", string_builder.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,9 +95,9 @@ public class Transformer {
                     new_match_ids.append(line + "\n");
                 }
             }
-            
+
             match_ids.close();
-            
+
             file_manager.overwrite("match_ids.csv", new_match_ids.toString());
 
         } catch (IOException e) {

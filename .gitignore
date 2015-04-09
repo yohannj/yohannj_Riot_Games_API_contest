@@ -1,4 +1,2 @@
 bin*
-resources/match_ids.rar
-resources/match_ids.csv
-resources/matches_detail
+resources/*
