@@ -37,7 +37,7 @@ public class Transformer {
         try {
             List<Object> all_mds = file_manager.load("matches_detail");
             Set<MatchDetail> mds = new HashSet<MatchDetail>(30000); //Just save some time...
-            for(Object o : all_mds) {
+            for (Object o : all_mds) {
                 mds.addAll((Set<MatchDetail>) o);
             }
             all_mds = null; //Free memory for a System.gc() ?
@@ -79,15 +79,96 @@ public class Transformer {
     }
 
     @SuppressWarnings("unchecked")
+    public void analyseWinFromChampionsV2() {
+        Map<Integer, Integer> champions_index_from_id = data_manager.getChampionsIndexFromId();
+        List<String> champions_name = data_manager.getChampionsName();
+
+        //Create header
+        StringBuilder string_builder = new StringBuilder("top t1,jungle t1,mid t1,adc t1,support t1,top t2,jungle t2,mid t2,adc t2,support t2,Winner\n");
+
+        try {
+            List<Object> all_mds = file_manager.load("matches_detail");
+            Set<MatchDetail> mds = new HashSet<MatchDetail>(30000); //Just save some time...
+            for (Object o : all_mds) {
+                mds.addAll((Set<MatchDetail>) o);
+            }
+            all_mds = null; //Free memory for a System.gc() ?
+
+            for (MatchDetail md : mds) {
+                Participant[] line = new Participant[10];
+
+                boolean write_current_line = true;
+                for (Participant p : md.getParticipants()) {
+
+                    String lane = p.getTimeline().getLane().substring(0, 3);
+                    int cell_index = p.getTeamId() == 100 ? 0 : 5;
+                    switch (lane) {
+                    case "TOP":
+                        cell_index += 0;
+                        break;
+                    case "JUN":
+                        cell_index += 1;
+                        break;
+                    case "MID":
+                        cell_index += 2;
+                        break;
+                    case "BOT":
+                        cell_index += 3;
+                        if (line[cell_index] != null && line[cell_index + 1] == null) {
+                            long my_minion = p.getStats().getMinionsKilled();
+                            long other_minion = line[cell_index].getStats().getMinionsKilled();
+                            if (my_minion > other_minion) {
+                                //Previous was support
+                                line[cell_index + 1] = line[cell_index];
+                                line[cell_index] = null;
+                            } else {
+                                //Current is support
+                                ++cell_index;
+                            }
+                        }
+                        break;
+                    }
+
+                    if (line[cell_index] == null) {
+                        line[cell_index] = p;
+                    } else {
+                        //Meta 1 top, 1 jungle, 1 mid, 2 bot not respected
+                        write_current_line = false;
+                    }
+                }
+
+                if (write_current_line) {
+                    for (int i = 0; i < line.length; ++i) {
+                        string_builder.append(champions_name.get(champions_index_from_id.get(line[i].getChampionId())).replaceAll("'", " ")
+                                              + ",");
+                    }
+
+                    String winner = "";
+                    for (dto.Match.Team t : md.getTeams()) {
+                        if (t.isWinner()) {
+                            winner = "t" + (t.getTeamId() / 100);
+                        }
+                    }
+                    string_builder.append(winner + "\n");
+                }
+
+            }
+            file_manager.overwrite("analyse_win_from_champions_v2.csv", string_builder.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     public void cleanMatchIds() {
         try {
             List<Object> all_mds = file_manager.load("matches_detail");
             Set<MatchDetail> mds = new HashSet<MatchDetail>();
-            for(Object o : all_mds) {
+            for (Object o : all_mds) {
                 mds.addAll((Set<MatchDetail>) o);
             }
             all_mds = null; //Free memory for a System.gc() ?
-            
+
             Set<Long> mds_id = new HashSet<Long>(mds.size());
             for (MatchDetail md : mds) {
                 mds_id.add(md.getMatchId());

@@ -78,11 +78,13 @@ public class Extracter {
         while (lastRequest.isBefore(Instant.now())) {
             String print_match_ids = "";
             List<Long> match_ids = requester.getChallengeMatchIds(region, lastRequest.getEpochSecond());
-            print_match_ids += parseMatchId(match_ids, region);
-            file_manager.append("match_ids.csv", print_match_ids);
+            if (match_ids != null) {
+                print_match_ids += parseMatchId(match_ids, region);
+                file_manager.append("match_ids.csv", print_match_ids);
 
-            //Adjust to next request: 300s = 5 minute
-            lastRequest = lastRequest.plusSeconds(300);
+                //Adjust to next request: 300s = 5 minute
+                lastRequest = lastRequest.plusSeconds(300);
+            }
         }
 
         //Avoid missing matches between now and next lastRequest (i.e. for 20:03, got matches for 20:00 to 20:03 instead of 20:00 to 20:05, and next "lastRequest" is for 20:05 to 20:10.)

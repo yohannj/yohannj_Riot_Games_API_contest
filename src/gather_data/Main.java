@@ -26,20 +26,21 @@ public class Main {
 
 
         System.out.println("start");
-        //extractMatchIdsOnce();
-        //System.out.println("match ids extracted once");
         
-        extracter.extractMatchDetails(3000, region, false);
+        extractMatchIdsOnce();
+        System.out.println("match ids extracted once");
+        
+        extracter.extractMatchDetails(10000, region, false);
         System.out.println("match details extracted");
         
         transformer.cleanMatchIds();
         System.out.println("match ids cleaned");
         
-        transformer.analyseWinFromChampions();
+        //transformer.analyseWinFromChampions();
+        transformer.analyseWinFromChampionsV2();
         System.out.println("analyse done");
 
-        //extractMatchIdsForever();
-        //extracter.extractMatchData(match_id, region, false);
+        extractMatchIdsForever();
     }
 
     private static void extractMatchIdsOnce() {

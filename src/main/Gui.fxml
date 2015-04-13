@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="572.0">
+      <children>
+        <Label text="Team compositor" textAlignment="LEFT" />
+        <VBox id="VBox" alignment="TOP_LEFT" spacing="5.0">
+          <children>
+            <Label text="1. Select your current team member" />
+            <GridPane>
+              <children>
+                <ComboBox blendMode="SRC_OVER" cache="true" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </children>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+          </children>
+        </VBox>
+        <VBox id="VBox" alignment="TOP_LEFT" prefWidth="572.0" spacing="5.0">
+          <children>
+            <Label text="2. Select opponents current team" />
+            <GridPane>
+              <children>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </children>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+          </children>
+        </VBox>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+          <children>
+            <Label text="3. Let's try one of the following team composition" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+          </children>
+        </VBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>
