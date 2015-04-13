@@ -9,17 +9,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TeamCompositorController">
   <children>
     <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
       <children>
         <Label text="Team compositor" textAlignment="LEFT" />
         <VBox id="VBox" alignment="TOP_LEFT" spacing="5.0">
           <children>
-            <Label text="1. Select your current team member" />
+            <Label text="1. Select your team champions" />
             <GridPane>
               <children>
-                <ComboBox blendMode="SRC_OVER" cache="true" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <ComboBox fx:id="my_team_1" blendMode="SRC_OVER" cache="true" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -28,7 +28,7 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <ComboBox fx:id="my_team_2" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -37,7 +37,7 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <ComboBox fx:id="my_team_3" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -46,7 +46,7 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                <ComboBox fx:id="my_team_4" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -74,10 +74,10 @@
         </VBox>
         <VBox id="VBox" alignment="TOP_LEFT" prefWidth="572.0" spacing="5.0">
           <children>
-            <Label text="2. Select opponents current team" />
+            <Label text="2. Select opponent team champions" />
             <GridPane>
               <children>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <ComboBox fx:id="their_team_1" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -86,7 +86,7 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <ComboBox fx:id="their_team_2" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -95,7 +95,7 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <ComboBox fx:id="their_team_3" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -104,7 +104,7 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                <ComboBox fx:id="their_team_4" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -113,7 +113,7 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ComboBox blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                <ComboBox fx:id="their_team_5" blendMode="SRC_OVER" cache="false" disable="false" editable="true" focusTraversable="true" mouseTransparent="false" pickOnBounds="false" prefWidth="93.0" visible="true" GridPane.columnIndex="4" GridPane.rowIndex="0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value="Item 1" />
@@ -169,21 +169,21 @@
                         <Label text="1." GridPane.rowIndex="1" />
                         <Label text="2." GridPane.rowIndex="2" />
                         <Label text="3." GridPane.rowIndex="3" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                        <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                        <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                        <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                        <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                        <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <Label fx:id="t1_top" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="t2_top" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="t3_top" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="t1_jgl" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label fx:id="t2_jgl" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label fx:id="t3_jgl" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label fx:id="t1_mid" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label fx:id="t2_mid" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Label fx:id="t3_mid" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Label fx:id="t1_adc" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Label fx:id="t2_adc" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <Label fx:id="t3_adc" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <Label fx:id="t1_sup" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Label fx:id="t2_sup" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        <Label fx:id="t3_sup" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
           </children>
